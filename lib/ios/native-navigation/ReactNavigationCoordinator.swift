@@ -49,7 +49,7 @@ open class ReactNavigationCoordinator: NSObject {
 
   @objc open static let sharedInstance = ReactNavigationCoordinator()
 
-  open var delegate: ReactNavigationCoordinatorDelegate?
+  @objc open var delegate: ReactNavigationCoordinatorDelegate?
   @objc open var bridge: RCTBridge?
   open var navigation: ReactNavigationImplementation = DefaultReactNavigationImplementation()
 
