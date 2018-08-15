@@ -25,7 +25,7 @@ class ReactNavigation: NSObject {
     ]
   }
 
-  func registerScreen(
+  @objc func registerScreen(
     _ screenName: String,
     properties: [String: AnyObject],
     waitForRender: Bool,
