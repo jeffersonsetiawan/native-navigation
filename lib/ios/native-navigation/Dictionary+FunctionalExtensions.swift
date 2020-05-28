@@ -39,13 +39,4 @@ extension Dictionary {
     }
     return dict
   }
-
-
-  public func mapValues<OutValue>(transform: (Value) throws -> OutValue) rethrows -> [Key: OutValue] {
-    var dict = [Key: OutValue]()
-    for (key, value) in self {
-      dict[key] = try transform(value)
-    }
-    return dict
-  }
 }

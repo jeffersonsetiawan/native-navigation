@@ -97,7 +97,7 @@ public final class ReactSharedElementAnimation: TransitionAnimation {
     completion: @escaping ()->())
   {
     // we want the "fromContent" to be below the "toContent"
-    container.sendSubview(toBack: fromContent.screenWithoutElements)
+    container.sendSubviewToBack(fromContent.screenWithoutElements)
 
     let fromScreen = fromContent.screenWithoutElements
 
@@ -258,7 +258,7 @@ public final class ReactSharedElementAnimation: TransitionAnimation {
     element: UIView,
     isPresenting: Bool) -> (() -> ())
   {
-    container.bringSubview(toFront: element)
+    container.bringSubviewToFront(element)
 
     if isPresenting {
       element.alpha = 0

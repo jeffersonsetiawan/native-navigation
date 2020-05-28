@@ -41,17 +41,17 @@ import React
 class BlockBarButtonItem: UIBarButtonItem {
   var actionHandler: (() -> Void)?
 
-  convenience init(title: String?, style: UIBarButtonItemStyle) {
+    convenience init(title: String?, style: UIBarButtonItem.Style) {
     self.init(title: title, style: style, target: nil, action: #selector(barButtonItemPressed))
     self.target = self
   }
 
-  convenience init(image: UIImage?, style: UIBarButtonItemStyle) {
+    convenience init(image: UIImage?, style: UIBarButtonItem.Style) {
     self.init(image: image, style: style, target: nil, action: #selector(barButtonItemPressed))
     self.target = self
   }
 
-  convenience init(barButtonSystemItem: UIBarButtonSystemItem) {
+    convenience init(barButtonSystemItem: UIBarButtonItem.SystemItem) {
     self.init(barButtonSystemItem: barButtonSystemItem, target: nil, action: #selector(barButtonItemPressed))
     self.target = self
   }
@@ -59,11 +59,11 @@ class BlockBarButtonItem: UIBarButtonItem {
   convenience init(
     title: String?,
     image: UIImage?,
-    barButtonSystemItem: UIBarButtonSystemItem?,
-    style: UIBarButtonItemStyle,
+    barButtonSystemItem: UIBarButtonItem.SystemItem?,
+    style: UIBarButtonItem.Style,
     enabled: Bool?,
     tintColor: UIColor?,
-    titleTextAttributes: [NSAttributedStringKey: Any]?
+    titleTextAttributes: [NSAttributedString.Key: Any]?
   ) {
     if let barButtonSystemItem = barButtonSystemItem {
       self.init(barButtonSystemItem: barButtonSystemItem)
@@ -194,14 +194,14 @@ func imageForKey(_ key: String, _ props: [String: AnyObject]) -> UIImage? {
   return nil
 }
 
-func barButtonStyleFromString(_ string: String?) -> UIBarButtonItemStyle {
+func barButtonStyleFromString(_ string: String?) -> UIBarButtonItem.Style {
   switch(string) {
   case .some("done"): return .done
   default: return .plain
   }
 }
 
-func barButtonSystemItemFromString(_ string: String?) -> UIBarButtonSystemItem? {
+func barButtonSystemItemFromString(_ string: String?) -> UIBarButtonItem.SystemItem? {
   switch string {
   case .some("done"): return .done
   case .some("cancel"): return .cancel
@@ -249,8 +249,8 @@ func statusBarAnimationFromString(_ string: String?) -> UIStatusBarAnimation {
 func textAttributesFromPrefix(
   _ prefix: String,
   _ props: [String: AnyObject]
-) -> [NSAttributedStringKey: Any]? {
-  var attributes: [NSAttributedStringKey: Any] = [:]
+) -> [NSAttributedString.Key: Any]? {
+    var attributes: [NSAttributedString.Key: Any] = [:]
   if let color = colorForKey("\(prefix)Color", props) {
     attributes[.foregroundColor] = color
   } else if let color = colorForKey("foregroundColor", props) {

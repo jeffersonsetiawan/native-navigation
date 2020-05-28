@@ -91,7 +91,6 @@ open class ReactViewController: UIViewController {
   fileprivate var statusBarIsDirty: Bool = false
   fileprivate var leadingButtonVisible: Bool = true
   private var barHeight: CGFloat
-  private var allowShake: Bool = true
 
   // MARK: Lifecycle
 
@@ -109,11 +108,6 @@ open class ReactViewController: UIViewController {
     self.initialConfig = EMPTY_MAP
     self.prevConfig = EMPTY_MAP
     self.renderedConfig = EMPTY_MAP
-    
-    let key = (props["params"] as? [String:Any])?.keys.filter {$0.lowercased() == "shake-shake"}.first
-    if let key = key, let value = props["params"]?[key] as? String, let boolValue = Bool(value) {
-      self.allowShake = boolValue
-    }
 
     super.init(nibName: nil, bundle: nil)
 
@@ -176,16 +170,10 @@ open class ReactViewController: UIViewController {
     super.viewDidLoad()
   }
 
-  open override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
-    if self.allowShake {
-      super.motionEnded(motion, with: event)
-    }
-  }
-
   override open func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
 
-    if (!self.isMovingToParentViewController) {
+    if (!self.isMovingToParent) {
       reconcileScreenConfig()
     }
 
@@ -205,7 +193,7 @@ open class ReactViewController: UIViewController {
 
   override open func viewDidDisappear(_ animated: Bool) {
     super.viewDidDisappear(animated)
-    if (self.isMovingFromParentViewController) {
+    if (self.isMovingFromParent) {
       // viewController is being popped
       finish(.ok, payload: dismissPayload)
       transition = nil
@@ -441,7 +429,7 @@ extension ReactViewController : ReactAnimationFromContentVendor {
 
   public func reactAnimationFromContent(_ animationContainer: UIView, transitionGroup: String, options: [String: Any]) -> ReactAnimationFromContent {
     let snapshot = self.snapshotForAnimationContainer(animationContainer, transitionGroup: transitionGroup)
-    animationContainer.sendSubview(toBack: snapshot.screenWithoutElements.view)
+    animationContainer.sendSubviewToBack(snapshot.screenWithoutElements.view)
     return ReactAnimationFromContent(
       screenWithoutElements: snapshot.screenWithoutElements.view,
       sharedElements: snapshot.sharedElements.mapValues({ $0.view })
@@ -458,7 +446,7 @@ extension ReactViewController : ReactAnimationFromContentVendor {
 extension ReactViewController : ReactAnimationToContentVendor {
   public func reactAnimationToContent(_ animationContainer: UIView) -> ReactAnimationToContent {
     let snapshot = self.snapshotForAnimationContainer(animationContainer)
-    animationContainer.sendSubview(toBack: snapshot.screenWithoutElements.view)
+    animationContainer.sendSubviewToBack(snapshot.screenWithoutElements.view)
     return ReactAnimationToContent(
       screenWithoutElements: snapshot.screenWithoutElements.view,
       sharedElements: snapshot.sharedElements.mapValues({ $0.view })
