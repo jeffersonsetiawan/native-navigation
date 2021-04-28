@@ -13,7 +13,7 @@ public protocol CustomTopMostViewController {
 }
 
 public extension UIViewController {
-  func topMostViewController() -> UIViewController? {
+  @objc func topMostViewController() -> UIViewController? {
     if let custom = (self as? CustomTopMostViewController)?.customTopMostViewController() {
       return custom.topMostViewController()
     } else if let presented = self.presentedViewController {
